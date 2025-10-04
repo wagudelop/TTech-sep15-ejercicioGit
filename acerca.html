@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Infoestratégica - Acerca de</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Fuentes -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+</head>
+
+<body>
+
+    <!-- Menú cargado dinámicamente -->
+    <div id="menu"></div>
+
+    <!-- Contenido principal -->
+    <main>
+
+        <!-- Sección Acerca de -->
+        <section class="bg-light py-5">
+            <div class="container">
+                <div class="row py-3">
+                    <div class="col-lg-8 m-auto">
+                        <h1 class="h1 text-center">Nuestra Empresa</h1>
+
+                        <h2 class="h2">Misión</h2>
+                        <p class="text-justify">
+                            Nuestra misión es proporcionar servicios de información y conocimiento de excelencia que respalden la formación académica, la investigación y el aprendizaje continuo, tanto para estudiantes como para docentes, investigadores y la comunidad externa. Nos comprometemos a ofrecer acceso eficiente, actualizado y accesible a recursos digitales y físicos, promoviendo la alfabetización informacional, la ética y la calidad en cada servicio, con responsabilidad social y ambiental, en un entorno acogedor y seguro.
+                        </p>
+
+                        <h2 class="h2">Visión</h2>
+                        <p class="text-justify">
+                            Ser reconocidos como un centro líder en gestión de información estratégica, innovación tecnológica y formación de usuarios, convirtiéndonos en punto de referencia para la comunidad académica nacional e internacional. Aspiramos a transformar la manera en que se busca, organiza y comparte el conocimiento, anticipándonos a nuevas necesidades mediante el uso de tecnologías emergentes y prácticas sostenibles. Queremos inspirar una cultura de aprendizaje permanente, colaboración multidisciplinaria y proyección social, donde el acceso al conocimiento sea inclusivo y de alta calidad.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nuestros servicios -->
+        <section class="container py-5">
+            <div class="row text-center pt-3">
+                <div class="col-lg-6 m-auto">
+                    <h1 class="h1">Nuestros Servicios</h1>
+                    <p>
+                        Ofrecemos consultoría en citación bibliográfica, catalogación documental,
+                        corrección de estilo y capacitación en gestión de la información.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Servicio 1 -->
+                <div class="col-md-4 p-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Citación bibliográfica</h5>
+                            <p class="card-text">Asesoría en normas APA, IEEE, MLA, entre otras.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 2 -->
+                <div class="col-md-4 p-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Catalogación bibliográfica</h5>
+                            <p class="card-text">Organización de recursos físicos y digitales usando
+                                MARC21 y RDA.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 3 -->
+                <div class="col-md-4 p-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Corrección de estilo</h5>
+                            <p class="card-text">Revisión ortográfica, gramatical y de estilo en documentos académicos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie cargado dinámicamente -->
+    <div id="pie"></div>
+
+    <!-- Scripts -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+    <script src="js/custom.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarFragmento("menu", "menu.html");
+            cargarFragmento("pie", "pie.html");
+        });
+    </script>
+
+</body>
+</html>

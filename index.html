@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Infoestratégica</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+</head>
+
+<script src="basededatos/datos.js"></script>
+
+<body>
+
+    <!-- Contenedor para cargar la barra de menú usando JavaScript -->
+    <div id="menu"></div>
+
+    <!-- Contenido de la página - Inicio -->
+
+    <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="./images/cite01.jpg" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left align-self-center">
+                                <h1 class="h1">Citación bibliográfica</h1>
+                                    <h3 class="h2">APA, IEEE, MLA, etc.</h3>
+                                    <p>
+                                        Elaboración de citas y referencias bibliográficas en diferentes estilos (APA,
+                                        IEEE, MLA, etc.) para trabajos académicos y profesionales.
+                                    </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <!-- Cambia la ruta de la imagen aquí para usar la imagen de tu carpeta 'images' -->
+                            <img class="img-fluid" src="./images/catalogacion01.jpg" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left">
+                                <h1 class="h1">Catalogación bibliográfica</h1>
+                                <h3 class="h2">Análisis de información documental</h3>
+                                <p>
+                                    Análisis basado en lenguajes documentales para la catalogación de recursos.
+                                    <strong>MARC21 y RDA</strong> para recursos físicos y/o electrónicos
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="./images/plantilla01.jpg" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left">
+                                <h1 class="h1">Corrección de estilo</h1>
+                                <h3 class="h2">Revisión ortográfica y gramatical</h3>
+                                <p>
+                                    Ofrecemos servicios de corrección de estilo, incluyendo revisión ortográfica y
+                                    gramatical, para asegurar la calidad de tus documentos.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
+            role="button" data-bs-slide="prev">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel"
+            role="button" data-bs-slide="next">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+
+    <!--Fin del carrusell-->
+
+    <!--Sección de categorias - inicio -->
+
+    <section class="container py-5">
+        <div class="row text-center pt-3">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1">Categorias del mes</h1>
+                <p>
+                    Estas son las categorias destacadas para el mes de septiembre
+                </p>
+            </div>
+        </div>
+        <div id="etiqueta_categorias" class="row">
+            <!--Las categorias se cargan directamente con JavaScript-->
+        </div>
+    </section>
+
+    <script>
+        let etiqueta_categorias = document.getElementById("etiqueta_categorias");
+
+        // Tomamos solo las 3 primeras categorías
+        let categoriasDelMes = lista_categorias.slice(0, 3);
+
+        categoriasDelMes.forEach((categoria) => {
+            let div = document.createElement("div");
+            div.classList.add("col-12", "col-md-4", "p-5", "mt-3");
+            div.innerHTML = `
+            <a href="#"><img src="${categoria.imagen}" class="rounded-circle img-fluid border"></a>
+            <h5 class="text-center mt-3 mb-3">${categoria.nombre}</h5>
+            <p class="text-center">
+            </p>
+        `;
+            etiqueta_categorias.appendChild(div);
+        });
+    </script>
+
+
+    <!-- Contenido de la página - Final -->
+
+    <!-- Contenedor para cargar el pie de página usando JavaScript -->
+    <div id="pie"></div>
+
+    <!-- Start Script -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+    <script src="js/custom.js"></script>
+    <!-- End Script -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarFragmento("menu", "menu.html");
+            cargarFragmento("pie", "pie.html");
+        }); 
+    </script>
+
+</body>
+
+</html>

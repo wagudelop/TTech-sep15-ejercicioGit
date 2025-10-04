@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Infoestratégica</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+    <div id="menu"></div>
+
+    <!-- Contenido de la página - Inicio -->
+    <section id="etiqueta_detalle_producto" class="bg-light">
+        <div class="container py-5 text-center">Cargando producto...</div>
+    </section>
+    <!-- Contenido de la página - Final -->
+
+    <div id="pie"></div>
+
+    <!-- Scripts librería base -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+
+    <!-- Datos + consultas -->
+    <script src="basededatos/datos.js"></script>
+    <script src="basededatos/consultas.js"></script>
+    <script src="js/custom.js"></script>
+
+    <!-- Fallback cargarFragmento -->
+    <script>
+        if (!window.cargarFragmento) {
+            window.cargarFragmento = function (id, url) {
+                const el = document.getElementById(id);
+                if (!el) return Promise.resolve();
+                return fetch(url)
+                    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+                    .then(html => { el.innerHTML = html; })
+                    .catch(() => { /* silent fallback */ });
+            };
+        }
+    </script>
+
+    <!-- Lógica del detalle -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarFragmento("menu", "menu.html");
+            cargarFragmento("pie", "pie.html");
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const codigo_producto = urlParams.get('codigo_producto') || "001";
+
+            // obtiene producto de datos.js
+            const obtenerProducto = window.obtenerProductoServicioPorCodigo || window.obtenerProductoServicio;
+            let producto = null;
+            try {
+                producto = obtenerProducto ? obtenerProducto(codigo_producto) : null;
+            } catch (err) {
+                console.error('Error llamando a obtenerProducto:', err);
+            }
+
+            const etiqueta = document.getElementById('etiqueta_detalle_producto');
+
+            if (!producto) {
+                etiqueta.innerHTML = `
+                  <div class="container py-5">
+                    <div class="alert alert-warning">Producto no encontrado (código: ${codigo_producto}).</div>
+                  </div>`;
+                return;
+            }
+
+            producto.clasificacion = Math.min(Math.max(Number(producto.clasificacion) || 0, 0), 5);
+            producto.precio = Number(producto.precio) || 0;
+
+            etiqueta.innerHTML = `
+                <div class="container pb-5">
+                    <div class="row">
+                        <div class="col-lg-5 mt-5">
+                            <div class="card mb-3">
+                                <img class="card-img img-fluid" src="${producto.imagen}" alt="${producto.nombre}" id="product-detail">
+                            </div>
+                        </div>
+                        <div class="col-lg-7 mt-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h1 class="h2">${producto.nombre}</h1>
+                                    <p class="h3 py-2">$${producto.precio.toLocaleString("es-CO")}</p>
+                                    <p class="py-2" id="rating-area"></p>
+                                    <h6>Descripción:</h6>
+                                    <p>${producto.descripcion}</p>
+                                    <div class="row mb-3">
+                                        <div class="col-auto">
+                                            <ul class="list-inline">
+                                                <li class="list-inline-item text-right">
+                                                    Cantidad
+                                                    <input type="hidden" id="product-quantity" value="1">
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <span class="btn btn-success" id="btn-minus">-</span>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <span class="badge bg-secondary" id="var-value">1</span>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <span class="btn btn-success" id="btn-plus">+</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col d-grid">
+                                            <button id="btn-add-cart" class="btn btn-success btn-lg">
+                                                <i class="fas fa-cart-plus"></i> Añadir al Carrito
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+            // estrellas
+            const ratingArea = document.getElementById('rating-area');
+            if (ratingArea) {
+                let html = '';
+                for (let i = 0; i < producto.clasificacion; i++) html += '<i class="fa fa-star text-warning"></i>';
+                for (let i = producto.clasificacion; i < 5; i++) html += '<i class="fa fa-star text-secondary"></i>';
+                html += `<span class="list-inline-item text-dark"> Rating ${producto.clasificacion} | 36 comentarios</span>`;
+                ratingArea.innerHTML = html;
+            }
+
+            // cantidad
+            const inputQty = document.getElementById("product-quantity");
+            const varValue = document.getElementById("var-value");
+
+            function setQty(n) {
+                n = parseInt(n) || 1;
+                if (n < 1) n = 1;
+                inputQty.value = n;
+                varValue.textContent = n;
+            }
+            document.getElementById("btn-plus").addEventListener("click", () => setQty(Number(inputQty.value) + 1));
+            document.getElementById("btn-minus").addEventListener("click", () => setQty(Number(inputQty.value) - 1));
+            setQty(inputQty.value);
+
+            // añadir al carrito
+            document.getElementById("btn-add-cart").addEventListener("click", () => {
+                const cantidad = Number(inputQty.value) || 1;
+
+                let carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
+
+                for (let i = 0; i < cantidad; i++) {
+                    carritoActual.push(producto);
+                }
+
+                localStorage.setItem("carrito", JSON.stringify(carritoActual));
+
+                alert(`✅ ${cantidad} × ${producto.nombre} añadido(s) al carrito.`);
+            });
+        }); 
+    </script>
+</body>
+</html>
