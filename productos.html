@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Infoestratégica</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Fuentes -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+
+    <!-- Archivos JS con datos y consultas -->
+    <script src="basededatos/datos.js"></script>
+    <script src="basededatos/consultas.js"></script>
+</head>
+
+<body>
+
+    <!-- Contenedor para cargar la barra de menú dinámicamente -->
+    <div id="menu"></div>
+
+    <!-- Contenido de la página -->
+    <div class="container py-5">
+        <div class="row">
+
+            <!-- Columna izquierda: categorías -->
+            <div class="col-lg-3">
+                <h1 class="h2 pb-4">Categorías</h1>
+                <ul id="etiqueta_categorias" class="list-unstyled">
+                    <li class="pb-3">
+                        <a class="d-flex justify-content-between h3 text-decoration-none" href="productos.html">
+                            Mostrar Todo
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <script>
+                const etiqueta_categorias = document.getElementById("etiqueta_categorias");
+                lista_categorias.forEach(categoria => {
+                    const li = document.createElement("li");
+                    li.classList.add("pb-3");
+                    li.innerHTML = `
+                        <a class="d-flex justify-content-between h3 text-decoration-none" href="?cat=${categoria.codigo}">
+                            ${categoria.nombre}
+                        </a>`;
+                    etiqueta_categorias.appendChild(li);
+                });
+            </script>
+
+            <!-- Columna central: productos/cursos -->
+            <div class="col-lg-6">
+                <div id="etiqueta_productos" class="row"></div>
+
+                <script>
+                    // Obtener categoría de la URL
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const categoria = urlParams.get('cat');
+
+                    const etiqueta_productos = document.getElementById("etiqueta_productos");
+                    const cursos_filtrados = obtenerProductosServicios(categoria);
+
+                    cursos_filtrados.forEach(curso => {
+                        const div_col = document.createElement("div");
+                        div_col.classList.add("col-md-4");
+
+                        div_col.innerHTML = `
+                            <div class="card mb-4 product-wap rounded-0">
+                                <!-- Imagen del producto -->
+                                <div class="card rounded-0">
+                                    <img class="card-img rounded-0 img-fluid" src="${curso.imagen}" alt="${curso.nombre}">
+                                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <a class="btn btn-success text-white" href="detalle_producto.html?codigo_producto=${curso.codigo}">
+                                                    <i class="far fa-eye"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <button class="btn btn-success text-white mt-2 btn-add" type="button">
+                                                    <i class="fas fa-cart-plus"></i>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Información del curso -->
+                                <div class="card-body">
+                                    <a href="detalle_producto.html?codigo_producto=${curso.codigo}" class="h3 text-decoration-none">${curso.nombre}</a>
+                                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                        <li>Duración: ${curso.duracion}</li>
+                                    </ul>
+                                    <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                        <li>
+                                            ${'<i class="text-warning fa fa-star"></i>'.repeat(curso.clasificacion)}
+                                            ${'<i class="text-muted fa fa-star"></i>'.repeat(5 - curso.clasificacion)}
+                                        </li>
+                                    </ul>
+                                    <p class="text-center mb-0">$${curso.precio.toLocaleString("es-CO")}</p>
+                                </div>
+                            </div>`;
+
+                        etiqueta_productos.appendChild(div_col);
+
+                        // Evento seguro para añadir al carrito
+                        div_col.querySelector(".btn-add").addEventListener("click", () => {
+                            agregarProductoServicio(curso);
+                        });
+                    });
+                </script>
+            </div>
+
+            <!-- Columna derecha: carrito -->
+            <div class="col-lg-3">
+                <h3 class="text-dark">Carrito de Compras</h3>
+                <p>Valor total: $<b id="etiqueta_total">0</b></p>
+                <ul class="list-group mb-3" id="etiqueta_carrito"></ul>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <button class="btn btn-danger btn-block me-2" onclick="vaciarCarrito()">
+                        Vaciar
+                    </button>
+                    <button class="btn btn-success btn-block" onclick="finalizarCompra()">
+                        Pagar
+                    </button>
+                </div>
+            </div>
+
+            <script>
+                // Mostrar carrito al cargar la página
+                mostrarCarrito();
+            </script>
+        </div>
+    </div>
+
+    <!-- Contenedor para el pie dinámico -->
+    <div id="pie"></div>
+
+    <!-- Scripts -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+    <script src="js/custom.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarFragmento("menu", "menu.html");
+            cargarFragmento("pie", "pie.html");
+        });
+    </script>
+
+</body>
+</html>

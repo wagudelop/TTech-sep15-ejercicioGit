@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Datos de Pago</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Total a pagar -->
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h2 id="total_pagar" class="text-success fw-bold"></h2>
+            </div>
+        </div>
+
+        <!-- Formulario de pago -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card p-4 shadow-sm">
+                    <h1 class="mb-4 text-center">Datos de Pago</h1>
+
+                    <form id="formulario_pago" novalidate>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" id="nombre" required>
+                            <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="correo" required>
+                            <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tarjeta" class="form-label">Número de tarjeta</label>
+                            <input type="text" class="form-control" id="tarjeta" required placeholder="1234 5678 9012 3456" pattern="\d{16}">
+                            <div class="invalid-feedback">Por favor ingresa un número de tarjeta válido (16 dígitos).</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="vencimiento" class="form-label">Vencimiento</label>
+                                <input type="month" class="form-control" id="vencimiento" required>
+                                <div class="invalid-feedback">Por favor ingresa la fecha de vencimiento.</div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="cvv" class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cvv" required pattern="\d{3}">
+                                <div class="invalid-feedback">Por favor ingresa un CVV válido (3 dígitos).</div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Pagar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        // Leer total desde localStorage (seguro, en lugar de query string)
+        const totalGuardado = localStorage.getItem("totalCompra");
+        const precioNum = Number(totalGuardado) || 0;
+
+        // Mostrar en pantalla
+        const mostrar = "Total a pagar: $" + precioNum.toLocaleString("es-CO");
+        const el = document.getElementById("total_pagar");
+        if (el) el.textContent = mostrar;
+
+        // Validación y simulación de pago
+        const form = document.getElementById("formulario_pago");
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (!form.checkValidity()) {
+                form.classList.add("was-validated");
+                return;
+            }
+
+            alert("✅ Pago procesado de " + mostrar);
+
+            // Limpiar carrito al finalizar compra
+            localStorage.removeItem("carrito");
+            localStorage.removeItem("totalCompra");
+
+            // Redirigir al catálogo
+            window.location.href = "productos.html";
+        });
+    })();
+    </script>
+</body>
+</html>

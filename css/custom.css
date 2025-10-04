@@ -1,0 +1,10 @@
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;    /* mejora espaciado en navegadores compatibles */
+  line-height: 1.6;
+}
+
+/* Si por alguna razón otra regla lo está sobreescribiendo, usa esto sólo como último recurso */
+.text-justify {
+  text-align: justify !important;
+}
